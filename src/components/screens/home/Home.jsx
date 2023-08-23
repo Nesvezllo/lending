@@ -47,6 +47,7 @@ const Home = () => {
 
 
     function changeSessionData(value) {
+        setActive(true)
         setSessionData((prevState) => {
             prevState[0].response = null
             for(let i = 0; i < prevState.length; i++) {
@@ -101,7 +102,7 @@ const Home = () => {
                 valueCheck
             }
             setHidden(false)
-        }, 400)
+        }, 500)
     }
 
     function handleClick(){
@@ -113,7 +114,7 @@ const Home = () => {
             }
             valueCheck()
             setHidden(false)
-        }, 400)
+        }, 500)
     };
 
     function decrimentCount() {
@@ -125,7 +126,7 @@ const Home = () => {
                 valueCheck()
             }
             setHidden(false)
-        }, 400)
+        }, 500)
     }
 
     const lineStyle = {
@@ -173,7 +174,7 @@ const Home = () => {
                                 {questions[count].map((item, i) => (
                                     <div className={`${s.test_block} ${sessionData[count]?.response == i ? s.test_block_active : ""}`} key={i} onClick={() => handleClickBlock(i)}>
                                         <div className={s.test_block_img} >
-                                            <Image src={item.img} alt="" preload />
+                                            {active && <Image src={item.img} alt="" preload />}
                                         </div>
                                         <div className={s.test_block_text}>
                                             {item.text}
