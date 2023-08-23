@@ -1,12 +1,12 @@
-import React, { FC, PropsWithChildren } from 'react'
+import React, { FC, PropsWithChildren, ReactNode } from 'react'
 
 import s from "./styles/index.module.scss"
 
 import Providers from "@/redux/provider"
 
-type Props = {}
+// type Props = {}
 
-const Layout: FC<PropsWithChildren<unknown>> = (children: any) => {
+const Layout = ({children}) => {
     
   return (
     <div className={s.layout}>
