@@ -121,20 +121,20 @@
                             }
                         }
 
-                        & {
-                            background: white !important;
-                            border: 1px solid #4fcbf9 !important;
-                            opacity: 1;
+                        // &:active {
+                        //     background: white !important;
+                        //     border: 1px solid #4fcbf9 !important;
+                        //     opacity: 1;
             
-                            .test {
-                                opacity: 0 !important;
-                                transition: opacity 0.5s !important;
-                            }
+                        //     .test {
+                        //         opacity: 0 !important;
+                        //         transition: opacity 0.5s !important;
+                        //     }
             
-                            .check {
-                                opacity: 1 !important;
-                            }
-                        }
+                        //     .check {
+                        //         opacity: 1 !important;
+                        //     }
+                        // }
                     }
 
                 }

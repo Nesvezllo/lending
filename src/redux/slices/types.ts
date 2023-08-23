@@ -1,7 +1,7 @@
-export interface initialState {
-    value: categoryState,
-}
+// export interface initialState {
+//     value: categoryState,
+// }
 
-type categoryState = {
-    toggle: boolean,
-}
+// type categoryState = {
+//     toggle: boolean,
+// }

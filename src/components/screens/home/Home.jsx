@@ -43,7 +43,7 @@ const Home = () => {
 
     useEffect(() => {
         valueCheck()
-    }, [count, inputValue, inputValue2, inputValue3])
+    }, [count, inputValue, inputValue2, inputValue3, valueCheck])
 
 
     function changeSessionData(value) {
