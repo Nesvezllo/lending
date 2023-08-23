@@ -6,7 +6,7 @@ import Providers from "@/redux/provider"
 
 type Props = {}
 
-const Layout: FC<PropsWithChildren<unknown>> = ({ children }) => {
+const Layout: FC<PropsWithChildren<unknown>> = (children: any) => {
     
   return (
     <div className={s.layout}>
