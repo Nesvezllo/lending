@@ -47,7 +47,6 @@ const Home = () => {
 
 
     function changeSessionData(value) {
-        setActive(true)
         setSessionData((prevState) => {
             prevState[0].response = null
             for(let i = 0; i < prevState.length; i++) {
@@ -174,7 +173,7 @@ const Home = () => {
                                 {questions[count].map((item, i) => (
                                     <div className={`${s.test_block} ${sessionData[count]?.response == i ? s.test_block_active : ""}`} key={i} onClick={() => handleClickBlock(i)}>
                                         <div className={s.test_block_img} >
-                                            {active && <Image src={item.img} alt="" preload />}
+                                            {count > 2 ? active && <Image src={item.img} alt="" preload /> : <Image src={item.img} alt="" preload />}
                                         </div>
                                         <div className={s.test_block_text}>
                                             {item.text}
