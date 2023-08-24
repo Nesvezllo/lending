@@ -26,7 +26,6 @@ const inter = Inter({ subsets: ['latin'] })
 
 const Home = () => {
     const [count, setCount] = useState(1)
-    const [selectedBlock, setSelectedBlock] = useState(null);
     const [inputValue, setInputValue] = useState("")
     const [inputValue2, setInputValue2] = useState("")
     const [inputValue3, setInputValue3] = useState("")
@@ -37,9 +36,11 @@ const Home = () => {
             return { response: null };
         }
     }))
-    const [birthday, setBirthday] = useState('');
     const [hidden, setHidden] = useState(false);
-    const [active, setActive] = useState(false);
+    const [date, setDate] = useState('');
+    const [dayError, setDayError] = useState(false)
+    const [mouthError, setMouthError] = useState(false)
+    const [yearError, setYearError] = useState(false)
 
     useEffect(() => {
         valueCheck()
@@ -73,7 +74,7 @@ const Home = () => {
                 setInputValue3(value)
                 break
             case 17:
-                setBirthday(value)
+                handleDateChange(value)
                 button.disabled = false
                 break
         }
@@ -83,7 +84,7 @@ const Home = () => {
         let value2 = document.querySelector("input")
         let button = document.querySelector("button")
         if (button) {
-            if (count == 2 && inputValue || count == 3 && inputValue2 || count == 4 && inputValue3 || count == 17 && birthday) {
+            if (count == 2 && inputValue || count == 3 && inputValue2 || count == 4 && inputValue3 || count == 17 && (!dayError && !mouthError && !yearError)) {
               button.disabled = false;
             } else {
               button.disabled = true;
@@ -93,7 +94,6 @@ const Home = () => {
 
     function handleClickBlock(index) {
         setHidden(true)
-        setActive(true)
         setTimeout(() => {
             changeSessionData(index)
             if (count < 17) {
@@ -101,31 +101,29 @@ const Home = () => {
                 valueCheck
             }
             setHidden(false)
-        }, 500)
+        }, 300)
     }
 
     function handleClick(){
         setHidden(true)
-        setActive(true)
         setTimeout(() => {
             if (count < 17) {
             setCount(count + 1);
             }
             valueCheck()
             setHidden(false)
-        }, 500)
+        }, 300)
     };
 
     function decrimentCount() {
         setHidden(true)
-        setActive(true)
         setTimeout(() => {
             if (count > 1) {
                 setCount(count - 1);
                 valueCheck()
             }
             setHidden(false)
-        }, 500)
+        }, 300)
     }
 
     const lineStyle = {
@@ -135,6 +133,41 @@ const Home = () => {
         transition: 'width 0.5s ease-in-out',
         border: 0,
         borderRadius: "5px"
+    };
+
+    const handleDateChange = (event) => {
+        let input = event.target.value;
+
+        input = input.replace(/\D/g, '');
+
+        if (input.length <= 2) {
+            if(input <= 31) {
+                setDate(input);
+                setDayError(false)
+            } else {
+                setDayError(true)
+            }
+        } else if (input.length <= 4) {
+            let sum = input.slice(2, 4)
+
+            if(sum ? sum <= 12 : input) {
+                setDate(`${input.slice(0, 2)}.${input.slice(2)}`)
+                setMouthError(false)
+                setYearError(false)
+            } else {
+                setMouthError(true)
+            }
+        } else {
+            let num = input.slice(4, 8)
+            if(num ? num <= 2015 && num >= 1950 : input) {
+                console.log(input.length);
+                setDate(`${input.slice(0, 2)}.${input.slice(2, 4)}.${input.slice(4, 8)}`);
+                setYearError(false)
+            } else {
+                setDate(`${input.slice(0, 2)}.${input.slice(2, 4)}.${input.slice(4, 8)}`);
+                setYearError(true)
+            }
+        }
     };
 
 
@@ -168,12 +201,13 @@ const Home = () => {
                             <div className={s.test_title}>
                             <h1>{titles[count].name}</h1>
                          </div>
-                         { count == 1 || count > 4 && count < 17 ?
+                         {
+                            count == 1 || count > 4 && count < 17 ?
                             (<div className={s.test_question}>
                                 {questions[count].map((item, i) => (
                                     <div className={`${s.test_block} ${sessionData[count]?.response == i ? s.test_block_active : ""}`} key={i} onClick={() => handleClickBlock(i)}>
                                         <div className={s.test_block_img} >
-                                            <Image src={item.img} alt="" preload />
+                                            <Image src={item.img} alt=""  loading="lazy"/>
                                         </div>
                                         <div className={s.test_block_text}>
                                             {item.text}
@@ -206,15 +240,24 @@ const Home = () => {
                                 <div className={s.input_test}>
                                 <div>
                                     <p>Введите дату вашего рождения </p>
-                                    <input type="date" id="input" placeholder="ДД.ММ.ГГГГ" max="12.31.2022" value={count == 17 ? birthday : ""} onChange={(e) => conditionInput(e.target.value)} required />
+                                    <input 
+                                        type="text" 
+                                        id="input" 
+                                        placeholder="ДД.ММ.ГГГГ" 
+                                        value={date}
+                                        onChange={(e) => conditionInput(e)} 
+                                        // pattern="^(?:0?[1-9]|1\d|2[0-8])(\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$"
+                                    />
+                                    {dayError && <p>неверно указан день: введите от 01 до 31</p>}
+                                    {mouthError && <p>неверно указан месяц: введите от 01 до 12</p>}
+                                    {yearError && <p>неверно указан год</p>}
                                     <div className={s.button_block}>
                                         <button type="button">Далее</button>
                                     </div>
                                 </div>
                             </div>
                             )
-                            :null
-                        }
+                            :null}
                         </div>
                 </div>
             </div>
